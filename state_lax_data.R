@@ -45,3 +45,5 @@ p<-p+ggtitle("D1 Lacrosse Players from each state \n Continental US")
 unrate<- data.frame(unemp$rate[1:50])
 states <- data.frame(state.center, unrate)
 p<- p+geom_text(data=states, aes(x=x, y=y, label=unrate group=NULL), size=2)
+
+
