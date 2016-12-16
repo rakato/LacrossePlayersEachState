@@ -6,27 +6,27 @@ library(plyr)
 library(mapproj)
 
 #read in data
-unemp= read.csv("states_lax.csv")
+lax<- read.csv("states_lax.csv")
 #colClasses<- c('factor', 'factor', 'numeric')
-unemp$rank<-as.factor(unemp$rank)
-unemp$region<-as.factor(unemp$region)
-unemp$rate<-as.numeric(unemp$rate)
+lax$rank<-as.factor(lax$rank)
+lax$region<-as.factor(lax$region)
+lax$rate<-as.numeric(lax$rate)
 
 
 
 #rename cols and convert region to lower colClasses
-names(unemp)<- c('rank', 'region', 'rate')
-unemp$region<-tolower(unemp$region)
+names(lax)<- c('rank', 'region', 'rate')
+lax$region<-tolower(lax$region)
 
-#get US state map data and merge with unemp
+#get US state map data and merge with lax
 us_state_map<-map_data('state')
-map_data<- merge(unemp, us_state_map, by='region')
+map_data<- merge(lax, us_state_map, by='region')
 
 #keep data sorted by polygon region
 map_data<-arrange(map_data, order)
 
 #add number of players to be displayed center of state
-unrate<- data.frame(unemp$rate[1:50])
+unrate<- data.frame(lax$rate[1:50])
 states <- data.frame(state.center, unrate)
 #plot map using ggplot2
 
@@ -36,7 +36,7 @@ p<- ggplot(map_data, aes(x=long, y=lat, group=group))+
 	coord_map()
 
 #add state names
-nrate<- data.frame(unemp$rate[1:50])
+nrate<- data.frame(lax$rate[1:50])
 states <- data.frame(state.center, unrate)
 p<- p+geom_text(data=states, aes(x=x, y=y, label=state.abb, group=NULL), size=4)+
 ggtitle("D1 Lacrosse Players from each state \n Continental US")
