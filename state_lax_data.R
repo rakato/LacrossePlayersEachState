@@ -4,6 +4,7 @@ library(ggplot2)
 library(maps)
 library(plyr)
 library(mapproj)
+library(plotly)
 
 #read in data
 lax<- read.csv("states_lax.csv")
@@ -38,10 +39,11 @@ p<- ggplot(map_data, aes(x=long, y=lat, group=group))+
 #add state names
 nrate<- data.frame(lax$rate[1:50])
 states <- data.frame(state.center, unrate)
+
 p<- p+geom_text(data=states, aes(x=x, y=y, label=state.abb, group=NULL), size=4)+
 ggtitle("D1 Lacrosse Players from each state \n Continental US")
 
 #Add numbers in each state
 p<- p+geom_text(data=states, aes(x=x, y=y, label=unrate, group=NULL), size=2)
 
-
+ggplotly(p)
